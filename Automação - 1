@@ -1,0 +1,62 @@
+import pyautogui
+import pyperclip
+import time
+import pandas as pd
+
+# Download do Relatório
+pyautogui.hotkey('win')
+pyautogui.write('Chrome')
+pyautogui.hotkey('enter')
+time.sleep(3)
+link = 'https://drive.google.com/drive/u/0/my-drive'
+pyperclip.copy(link)
+pyautogui.hotkey('ctrl','v')
+pyautogui.hotkey('enter')
+time.sleep(5)
+pyautogui.click(598, 569, clicks=2)
+time.sleep(3)
+pyautogui.click(381, 365, clicks=2)
+time.sleep(3)
+pyautogui.click(397, 348)
+pyautogui.click(1169, 186)
+time.sleep(0.8)
+pyautogui.click(1019, 569)
+
+# Leitura do Relatório
+time.sleep(3)
+dp = pd.read_excel(r'C:/Users/victo/Downloads/Vendas - Dez.xlsx')
+time.sleep(3)
+faturamento = dp['Valor Final'].sum()
+qtde_produtos = dp['Quantidade'].sum()
+time.sleep(0.8)
+
+# Envio do Relatório por e-mail
+pyautogui.hotkey('ctrl', 't')
+gmail = 'https://mail.google.com/mail/u/0/'
+pyperclip.copy(gmail)
+time.sleep(1)
+pyautogui.hotkey('ctrl', 'v')
+pyautogui.hotkey('enter')
+time.sleep(6)
+pyautogui.click(97,209)
+time.sleep(1)
+pyautogui.write('victorprimbuchele@gmail.com')
+pyautogui.hotkey('tab')
+pyautogui.hotkey('tab')
+time.sleep(0.6)
+relatório = 'Relatório de Vendas'
+pyperclip.copy(relatório)
+pyautogui.hotkey('ctrl', 'v')
+pyautogui.hotkey('tab')
+time.sleep(0.6)
+pyautogui.write(f'''Bom dia,
+
+Segue, para conhecimento da diretoria, 
+faturamento: R${faturamento:,.2f}
+e quantidades vendidas: {qtde_produtos:,} 
+atualizados referentes ao dia de ontem.
+
+Atenciosamente,
+Victor Prim Büchele.''')
+time.sleep(0.6)
+pyautogui.hotkey('ctrl', 'enter')
